@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Raven.Abstractions.Replication;
 
@@ -19,15 +21,25 @@ namespace RavenDb.Bundles.Azure
         public string       ExternalUrl     { get; set; }
         public string       InternalUrl     { get; set; }
         public bool         IsSelf          { get; set; }
-
-        public bool         IsRoleMaster
-        {
-            get { return InstanceIndex == 0; }
-        }
     }
 
     public interface IInstanceEnumerator
     {
         IEnumerable<InstanceDescription> EnumerateInstances();
+    }
+
+    public static class InstanceEnumeratorExtensions
+    {
+        public static InstanceDescription GetSelf( this IInstanceEnumerator instanceEnumerator )
+        {
+            Contract.Requires<ArgumentNullException>( instanceEnumerator != null,"instanceEnumerator");
+
+            return instanceEnumerator.EnumerateInstances().First(i => i.IsSelf);
+        }
+
+        public static IEnumerable<InstanceDescription> GetOthers( this IInstanceEnumerator instanceEnumerator )
+        {
+            return instanceEnumerator.EnumerateInstances().Where(i => !i.IsSelf);
+        }
     }
 }

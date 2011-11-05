@@ -15,7 +15,11 @@ namespace RavenDb.Bundles.Azure.Configuration
 
         public const string StorageConnectionString             = "Storage.ConnectionString";
         public const string StorageContainerName                = "Storage.ContainerName";
-        public const string StorageSize                         = "Storage.Size";
+        public const string StorageSizeInMb                     = "Storage.SizeInMb";
         public const string StorageCacheResource                = "Storage.Cache";
+        public const string StorageBenchmarkSizeInMb            = "Storage.BenchmarkSizeInMb";
+
+        public const string ReplicationRecipe                   = "Replication.Recipe";
+        public const string ReplicationIndexPollPeriodInMinutes = "Replication.IndexPollPeriodInMinutes";
     }
 }

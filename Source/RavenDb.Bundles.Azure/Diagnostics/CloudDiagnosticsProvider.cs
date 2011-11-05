@@ -74,8 +74,9 @@ namespace RavenDb.Bundles.Azure.Diagnostics
             var traceTarget = new NLog.Targets.TraceTarget() {Layout = logLayout};
             loggingConfiguration.AddTarget("trace", traceTarget);
 
-            var logLevelName = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.DiagnosticsLogLevel, "Debug");
-            var logLevel = (NLog.LogLevel)typeof(NLog.LogLevel).GetField(logLevelName, BindingFlags.Public | BindingFlags.Static).GetValue(null);
+            var logLevelName    = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.DiagnosticsLogLevel, "Debug");
+            var logLevelField   = typeof (NLog.LogLevel).GetField(logLevelName, BindingFlags.Public | BindingFlags.Static);
+            var logLevel        = logLevelField != null ? (NLog.LogLevel) logLevelField.GetValue(null) : NLog.LogLevel.Debug;
 
             loggingConfiguration.LoggingRules.Add(new LoggingRule("*", logLevel, traceTarget));
 

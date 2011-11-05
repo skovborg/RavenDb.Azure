@@ -16,24 +16,27 @@ namespace RavenDb.Bundles.Azure.Storage
     [PartCreationPolicy(CreationPolicy.Shared)]
     public class CloudStorageProvider : IStorageProvider,IDisposable
     {
-        private static readonly Logger  log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger          log = LogManager.GetCurrentClassLogger();
 
-        private readonly object         initializationLock  = new object();
-        private bool                    isInitialized       = false;
+        private readonly object                 initializationLock  = new object();
+        private bool                            isInitialized       = false;
 
-        private CloudStorageAccount     cloudStorageAccount;
-        private CloudBlobClient         cloudBlobClient;
-        private CloudBlobContainer      cloudBlobContainer;
-        private CloudDrive              cloudDrive;     
-        private LocalResource           localCache;
+        private CloudStorageAccount             cloudStorageAccount;
+        private CloudBlobClient                 cloudBlobClient;
+        private CloudBlobContainer              cloudBlobContainer;
+        private CloudDrive                      cloudDrive;     
+        private LocalResource                   localCache;
 
-        private DirectoryInfo           mountedDirectory;
-
-        [Import]
-        public IConfigurationProvider   ConfigurationProvider { get; set; }
+        private DirectoryInfo                   mountedDirectory;
 
         [Import]
-        public IInstanceEnumerator      InstanceEnumerator { get; set; }
+        public IConfigurationProvider           ConfigurationProvider { get; set; }
+
+        [Import]
+        public IInstanceEnumerator              InstanceEnumerator { get; set; }
+
+        [ImportMany]
+        public IEnumerable<IStorageBenchmark>   Benchmarks { get; set; } 
 
         public void Initialize()
         {
@@ -70,7 +73,7 @@ namespace RavenDb.Bundles.Azure.Storage
 
         private void OnInitialize()
         {
-            var selfInstance = InstanceEnumerator.EnumerateInstances().First(i => i.IsSelf);
+            var selfInstance        = InstanceEnumerator.GetSelf();
 
             cloudStorageAccount     = CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue(ConfigurationSettingsKeys.StorageConnectionString));
             log.Info("Storage account selected: {0}",cloudStorageAccount.BlobEndpoint);
@@ -113,7 +116,7 @@ namespace RavenDb.Bundles.Azure.Storage
             cloudDrive              = cloudStorageAccount.CreateCloudDrive(pageBlob.Uri.ToString());
             log.Info("Virtual drive created: {0}",cloudDrive.Uri);
 
-            var storageSize         = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.StorageSize, 50000);
+            var storageSize         = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.StorageSizeInMb, 50000);
             log.Info("Storage size: {0} mb",storageSize);
 
             cloudDrive.CreateIfNotExist(storageSize);
@@ -124,22 +127,34 @@ namespace RavenDb.Bundles.Azure.Storage
 
             mountedDirectory = new DirectoryInfo(mountedDirectoryPath);
 
-            log.Info("Ensuring drive is available: {0}",mountedDirectoryPath);
-            UpdateTestFile();
-
+            log.Info("Executing drive benchmark for: {0}",mountedDirectoryPath);
+            ExecuteBenchmarks(mountedDirectory,storageSize);
             log.Info("Storage initialization succeeded");
         }
 
-        private void UpdateTestFile()
+        private void ExecuteBenchmarks( DirectoryInfo benchmarkDirectory,int storageSize )
         {
-            var filename = Path.Combine(mountedDirectory.FullName, "Initialization.timestamp");
+            var benchmarkSize = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.StorageBenchmarkSizeInMb, 1024);
 
-            if (File.Exists(filename))
+            if (benchmarkSize > storageSize)
             {
-                File.Delete(filename);
+                benchmarkSize = storageSize;
             }
 
-            File.WriteAllText(filename,DateTime.UtcNow.ToLongDateString());
+            var averageMbsPerSecond = 0.0;
+
+            foreach (var benchmark in Benchmarks)
+            {
+                var result          = benchmark.Execute(benchmarkDirectory, benchmarkSize);
+                averageMbsPerSecond += result;
+
+                log.Info("Storage benchmark {0}: {1} mb/sec",benchmark.GetType().Name.Replace("Benchmark",string.Empty),result);
+            }
+
+            if (Benchmarks.Count() > 1)
+            {
+                log.Info("Storage benchmark average: {0} mb/sec",averageMbsPerSecond / Benchmarks.Count());
+            }
         }
     }
 }

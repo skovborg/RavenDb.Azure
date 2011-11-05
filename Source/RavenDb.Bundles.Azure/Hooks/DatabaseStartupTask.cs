@@ -23,7 +23,7 @@ namespace RavenDb.Bundles.Azure.Hooks
         public IStorageProvider     StorageProvider     { get; set; }
 
         [Import]
-        public IInstanceEnumerator  InstanceEnumerator { get; set; }
+        public IReplicationProvider ReplicationProvider { get; set; }
        
         public void Execute(Raven.Database.DocumentDatabase database)
         {
@@ -38,11 +38,7 @@ namespace RavenDb.Bundles.Azure.Hooks
             database.Configuration.DataDirectory = storageDirectory.FullName;
 
             // Setup replication:
-            var selfInstance = InstanceEnumerator.EnumerateInstances().First(i => i.IsSelf);
-            if (selfInstance.InstanceType == InstanceType.ReadWrite )
-            {
-                ReplicationUtilities.UpdateReplication(selfInstance,InstanceEnumerator, database);
-            }
+            ReplicationProvider.ReplicateDefaultDatabase(database);
         }
     }
 }

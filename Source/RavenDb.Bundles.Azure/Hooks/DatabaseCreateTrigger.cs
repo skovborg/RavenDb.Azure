@@ -24,7 +24,7 @@ namespace RavenDb.Bundles.Azure.Hooks
         public IStorageProvider     StorageProvider { get; set; }
 
         [Import]
-        public IInstanceEnumerator  InstanceEnumerator { get; set; }
+        public IReplicationProvider ReplicationProvider { get; set; }
 
         public override void OnPut(string key, RavenJObject document, RavenJObject metadata, Raven.Abstractions.Data.TransactionInformation transactionInformation)
         {
@@ -56,25 +56,7 @@ namespace RavenDb.Bundles.Azure.Hooks
 
             if (TryGetDatabase(key, out databaseName))
             {
-                var selfInstance = InstanceEnumerator.EnumerateInstances().First(i => i.IsSelf);
-
-                if (selfInstance.InstanceType == InstanceType.ReadWrite)
-                {
-                    // Ensure database exists:
-                    foreach (var instance in InstanceEnumerator.EnumerateInstances().Where(i => !i.IsSelf))
-                    {
-                        using (var documentStore = new DocumentStore() {Url = instance.InternalUrl})
-                        {
-                            log.Info("Ensuring database {0} exists on instance {1} at {2}", databaseName, instance.Id,
-                                     instance.InternalUrl);
-
-                            documentStore.Initialize();
-                            documentStore.DatabaseCommands.EnsureDatabaseExists(databaseName);
-                        }
-                    }
-
-                    ReplicationUtilities.UpdateReplication(selfInstance,InstanceEnumerator, databaseName);
-                }
+                ReplicationProvider.ReplicateTenantDatabase(databaseName);
             }
 
             base.AfterCommit(key, document, metadata, etag);

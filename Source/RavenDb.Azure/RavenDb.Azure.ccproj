@@ -37,20 +37,12 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RavenDb.Azure.ReadServer\RavenDb.Azure.ReadServer.csproj">
-      <Name>RavenDb.Azure.ReadServer</Name>
-      <Project>{d310a07f-4405-4594-8c6b-524d1b7a272a}</Project>
+    <ProjectReference Include="..\RavenDb.Azure.Server\RavenDb.Azure.Server.csproj">
+      <Name>RavenDb.Azure.Server</Name>
+      <Project>{d67ef0fc-c430-47fd-a636-a7994997c769}</Project>
       <Private>True</Private>
       <RoleType>Web</RoleType>
-      <RoleName>RavenDb.Azure.ReadServer</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
-    <ProjectReference Include="..\RavenDb.Azure.ReadWriteServer\RavenDb.Azure.ReadWriteServer.csproj">
-      <Name>RavenDb.Azure.ReadWriteServer</Name>
-      <Project>{1245abf8-539d-482e-84f3-9439f4306c36}</Project>
-      <Private>True</Private>
-      <RoleType>Web</RoleType>
-      <RoleName>RavenDb.Azure.ReadWriteServer</RoleName>
+      <RoleName>RavenDb.Azure.Server</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>

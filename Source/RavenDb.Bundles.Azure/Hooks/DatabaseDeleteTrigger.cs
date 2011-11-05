@@ -28,11 +28,11 @@ namespace RavenDb.Bundles.Azure.Hooks
             if (key.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 var databaseName    = key.Replace(prefix, string.Empty);
-                var selfInstance    = InstanceEnumerator.EnumerateInstances().First(i => i.IsSelf);
+                var self            = InstanceEnumerator.GetSelf();
           
-                if (selfInstance.InstanceType == InstanceType.ReadWrite)
+                if (self.InstanceType == InstanceType.ReadWrite)
                 {
-                    foreach (var instance in InstanceEnumerator.EnumerateInstances().Where(i => !i.IsSelf))
+                    foreach (var instance in InstanceEnumerator.GetOthers())
                     {
                         log.Info("Ensuring database {0} is deleted on instance {1} at {2}", databaseName, instance.Id,
                                  instance.InternalUrl);
