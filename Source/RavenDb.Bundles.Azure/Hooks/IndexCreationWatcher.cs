@@ -8,6 +8,7 @@ using Raven.Abstractions.Indexing;
 using Raven.Database;
 using Raven.Database.Config;
 using Raven.Database.Plugins;
+using Raven.Json.Linq;
 using RavenDb.Bundles.Azure.Configuration;
 using RavenDb.Bundles.Azure.Replication;
 
@@ -34,13 +35,13 @@ namespace RavenDb.Bundles.Azure.Hooks
         {
             log.Info("Scanning indices in database {0} for replication",Database.Name ?? "Default");
 
-            // Enumerate all indices:
-            var indices = new List<IndexDefinition>();
+            var indexNames              = Database.GetIndexNames(0, int.MaxValue).OfType<RavenJValue>().Select(t => t.Value.ToString());
+            var indexNamesToReplicate   = indexNames.Where(name => !name.StartsWith("Raven/") && !name.StartsWith("Temp/"));
+            var indicesToReplicate      = indexNamesToReplicate.Select(name => Database.GetIndexDefinition(name)).ToArray();
 
+            ReplicationProvider.ReplicateIndices(Database.Name, indicesToReplicate);
 
-
-
-            return true;
+            return false;
         }
     }
 }

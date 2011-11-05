@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using NLog;
+using Raven.Abstractions.Indexing;
 using Raven.Abstractions.Replication;
 using Raven.Client.Document;
 using Raven.Client.Extensions;
@@ -75,6 +76,49 @@ namespace RavenDb.Bundles.Azure.Replication
                         replicationDocument.Destinations = replicationTargets.Select(i => new ReplicationDestination() { Url = string.Format("{0}/databases/{1}", i.InternalUrl, databaseName) }).ToList();
                         session.Store(replicationDocument);
                         session.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public void ReplicateIndices( string databaseName,IEnumerable<IndexDefinition> indicesToReplicate )
+        {
+            InstanceDescription self = null;
+            var replicationTargets = GetReplicationTargets(out self);
+
+            if (replicationTargets != null)
+            {
+                foreach (var replicationTarget in replicationTargets)
+                {
+                    using (var documentStore = new DocumentStore() { Url = replicationTarget.InternalUrl })
+                    {
+                        documentStore.Initialize();
+
+                        using (var session = string.IsNullOrWhiteSpace(databaseName) ? documentStore.OpenSession() : documentStore.OpenSession(databaseName))
+                        {
+                            session.Advanced.MaxNumberOfRequestsPerSession = int.MaxValue;
+
+                            foreach (var index in indicesToReplicate)
+                            {
+                                log.Info("Checking if index {0} exists on server {1} at {2}",index.Name,replicationTarget.Id,replicationTarget.InternalUrl);
+
+                                var otherIndexDefinition = session.Advanced.DatabaseCommands.GetIndex(index.Name);
+
+                                if (otherIndexDefinition == null)
+                                {
+                                    log.Info("Index does not exist");
+                                    session.Advanced.DatabaseCommands.PutIndex(index.Name, index);
+                                }
+                                else
+                                {
+                                    if (!otherIndexDefinition.Equals(index))
+                                    {
+                                        log.Info("Index is not the same, replicating");
+                                        session.Advanced.DatabaseCommands.PutIndex(index.Name, index);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
