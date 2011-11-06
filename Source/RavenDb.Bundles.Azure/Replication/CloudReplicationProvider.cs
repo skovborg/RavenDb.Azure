@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using NLog;
+using Raven.Abstractions.Data;
 using Raven.Abstractions.Indexing;
 using Raven.Abstractions.Replication;
 using Raven.Client.Document;
@@ -28,7 +29,7 @@ namespace RavenDb.Bundles.Azure.Replication
         [ImportMany]
         public IEnumerable<IReplicationRecipe>  Recipes { get; set; } 
 
-        public void ReplicateDefaultDatabase( DocumentDatabase database )
+        public void SetupDefaultDatabaseReplication( DocumentDatabase database )
         {
             InstanceDescription self = null;
             var replicationTargets = GetReplicationTargets(out self);
@@ -51,7 +52,7 @@ namespace RavenDb.Bundles.Azure.Replication
             }
         }
 
-        public void ReplicateTenantDatabase( string databaseName )
+        public void SetupTenantDatabaseReplication( string databaseName )
         {
             InstanceDescription self = null;
             var replicationTargets = GetReplicationTargets(out self);
@@ -81,6 +82,35 @@ namespace RavenDb.Bundles.Azure.Replication
             }
         }
 
+        public void ReplicateTenantDatabaseDeletion(string databaseName)
+        {
+            InstanceDescription self = null;
+            var replicationTargets = GetReplicationTargets(out self);
+
+            if (replicationTargets != null)
+            {
+                foreach (var replicationTarget in replicationTargets)
+                {
+                    log.Info("Ensuring database {0} is deletet on {1} at {2}, from {3} at {4}", databaseName, replicationTarget.Id, replicationTarget.InstanceIndex,self.Id,self.InternalUrl);
+
+                    using (var documentStore = new DocumentStore() {Url = replicationTarget.InternalUrl})
+                    {
+                        documentStore.Initialize();
+
+                        using (var session = documentStore.OpenSession())
+                        {
+                            var databaseDocument = session.Load<DatabaseDocument>("Raven/Databases/" + databaseName);
+                            if (databaseDocument != null)
+                            {
+                                session.Delete(databaseDocument);
+                                session.SaveChanges();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public void ReplicateIndices( string databaseName,IEnumerable<IndexDefinition> indicesToReplicate )
         {
             InstanceDescription self = null;
@@ -100,20 +130,20 @@ namespace RavenDb.Bundles.Azure.Replication
 
                             foreach (var index in indicesToReplicate)
                             {
-                                log.Info("Checking if index {0} exists on server {1} at {2}",index.Name,replicationTarget.Id,replicationTarget.InternalUrl);
+                                log.Info("Checking if replication is needed for index {0} exists on server {1} at {2}",index.Name,replicationTarget.Id,replicationTarget.InternalUrl);
 
                                 var otherIndexDefinition = session.Advanced.DatabaseCommands.GetIndex(index.Name);
 
                                 if (otherIndexDefinition == null)
                                 {
-                                    log.Info("Index does not exist");
+                                    log.Info("Index {0} does not exist on server {1} at {2}", index.Name, replicationTarget.Id, replicationTarget.InternalUrl);
                                     session.Advanced.DatabaseCommands.PutIndex(index.Name, index);
                                 }
                                 else
                                 {
                                     if (!otherIndexDefinition.Equals(index))
                                     {
-                                        log.Info("Index is not the same, replicating");
+                                        log.Info("Index {0} is not the same as on server {1} at {2}", index.Name, replicationTarget.Id, replicationTarget.InternalUrl);
                                         session.Advanced.DatabaseCommands.PutIndex(index.Name, index);
                                     }
                                 }
@@ -156,8 +186,8 @@ namespace RavenDb.Bundles.Azure.Replication
 
         private IReplicationRecipe GetRecipe()
         {
-            var recipeName = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationRecipe, "SeperateReadersAndWriters");
-            return Recipes.FirstOrDefault(r => r.GetType().Name.Replace("Recipe",string.Empty).Equals(recipeName, StringComparison.OrdinalIgnoreCase));
+            var recipeName = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationRecipe, "PeerToPeer");
+            return Recipes.FirstOrDefault(r => r.GetType().Name.Replace("Recipe",string.Empty).Replace("Replication",string.Empty).Equals(recipeName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

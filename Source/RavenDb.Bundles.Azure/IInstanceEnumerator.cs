@@ -6,16 +6,9 @@ using Raven.Abstractions.Replication;
 
 namespace RavenDb.Bundles.Azure
 {
-    public enum InstanceType
-    {
-        Read,
-        ReadWrite,
-    }
-
     public class InstanceDescription
     {
         public string       Id              { get; set; }
-        public InstanceType InstanceType    { get; set; }
         public int          InstanceIndex   { get; set; }
         public string       FriendlyName    { get; set; }
         public string       ExternalUrl     { get; set; }

@@ -163,13 +163,14 @@
     <Compile Include="Hooks\DatabaseCreateTrigger.cs" />
     <Compile Include="Hooks\DatabaseDeleteTrigger.cs" />
     <Compile Include="Hooks\DatabaseStartupTask.cs" />
+    <Compile Include="Hooks\DocumentUtilities.cs" />
     <Compile Include="Hooks\IndexCreationWatcher.cs" />
     <Compile Include="IInstanceEnumerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replication\CloudReplicationProvider.cs" />
     <Compile Include="Replication\IReplicationProvider.cs" />
     <Compile Include="Replication\IReplicationRecipe.cs" />
-    <Compile Include="Replication\Recipes\SeperateReadersAndWritersRecipe.cs" />
+    <Compile Include="Replication\Recipes\PeerToPeerReplicationRecipe.cs" />
     <Compile Include="Storage\Benchmarks\RandomReadBenchmark.cs" />
     <Compile Include="Storage\Benchmarks\SequentialReadBenchmark.cs" />
     <Compile Include="Storage\Benchmarks\SequentialWriteBenchmark.cs" />

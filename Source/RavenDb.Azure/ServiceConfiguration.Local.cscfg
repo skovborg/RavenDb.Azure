@@ -12,7 +12,7 @@
       <Setting name="Storage.ContainerName" value="ravendb" />
       <Setting name="Storage.SizeInMb" value="50000" />
       <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
-      <Setting name="Replication.Recipe" value="SeperateReadersAndWriters" />
+      <Setting name="Replication.Recipe" value="PeerToPeer" />
       <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
     </ConfigurationSettings>
   </Role>

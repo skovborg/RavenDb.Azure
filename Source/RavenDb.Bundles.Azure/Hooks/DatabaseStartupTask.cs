@@ -38,7 +38,7 @@ namespace RavenDb.Bundles.Azure.Hooks
             database.Configuration.DataDirectory = storageDirectory.FullName;
 
             // Setup replication:
-            ReplicationProvider.ReplicateDefaultDatabase(database);
+            ReplicationProvider.SetupDefaultDatabaseReplication(database);
         }
     }
 }

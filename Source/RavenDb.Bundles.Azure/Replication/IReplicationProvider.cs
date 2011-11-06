@@ -6,8 +6,10 @@ namespace RavenDb.Bundles.Azure.Replication
 {
     public interface IReplicationProvider
     {
-        void ReplicateDefaultDatabase(DocumentDatabase database);
-        void ReplicateTenantDatabase(string databaseName);
+        void SetupDefaultDatabaseReplication(DocumentDatabase database);
+        void SetupTenantDatabaseReplication(string databaseName);
+
+        void ReplicateTenantDatabaseDeletion(string databaseName);
         void ReplicateIndices(string databaseName, IEnumerable<IndexDefinition> indicesToReplicate);
     }
 }

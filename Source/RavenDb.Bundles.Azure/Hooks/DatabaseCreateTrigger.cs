@@ -30,7 +30,7 @@ namespace RavenDb.Bundles.Azure.Hooks
         {
             string databaseName = null;
 
-            if (TryGetDatabase(key, out databaseName))
+            if (DocumentUtilities.TryGetDatabaseNameFromKey(key, out databaseName))
             {
                 var dataDirectory = StorageProvider.GetDirectoryForDatabase(databaseName);
 
@@ -54,26 +54,12 @@ namespace RavenDb.Bundles.Azure.Hooks
         {
             string databaseName = null;
 
-            if (TryGetDatabase(key, out databaseName))
+            if (DocumentUtilities.TryGetDatabaseNameFromKey(key, out databaseName))
             {
-                ReplicationProvider.ReplicateTenantDatabase(databaseName);
+                ReplicationProvider.SetupTenantDatabaseReplication(databaseName);
             }
 
             base.AfterCommit(key, document, metadata, etag);
-        }
-
-        private static bool TryGetDatabase( string key,out string databaseName)
-        {
-            const string prefix = "Raven/Databases/";
-
-            if (key.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
-            {
-                databaseName = key.Replace(prefix, string.Empty);
-                return true;
-            }
-
-            databaseName = null;
-            return false;
         }
     }
 }
