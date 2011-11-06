@@ -8,12 +8,13 @@ namespace RavenDb.Bundles.Azure
 {
     public class InstanceDescription
     {
-        public string       Id              { get; set; }
-        public int          InstanceIndex   { get; set; }
-        public string       FriendlyName    { get; set; }
-        public string       ExternalUrl     { get; set; }
-        public string       InternalUrl     { get; set; }
-        public bool         IsSelf          { get; set; }
+        public string       Id                  { get; set; }
+        public string       RoleName            { get; set; }
+        public int          RoleInstanceIndex   { get; set; }
+        public string       FriendlyName        { get; set; }
+        public string       ExternalUrl         { get; set; }
+        public string       InternalUrl         { get; set; }
+        public bool         IsSelf              { get; set; }
     }
 
     public interface IInstanceEnumerator

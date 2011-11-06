@@ -91,7 +91,7 @@ namespace RavenDb.Bundles.Azure.Replication
             {
                 foreach (var replicationTarget in replicationTargets)
                 {
-                    log.Info("Ensuring database {0} is deletet on {1} at {2}, from {3} at {4}", databaseName, replicationTarget.Id, replicationTarget.InstanceIndex,self.Id,self.InternalUrl);
+                    log.Info("Ensuring database {0} is deletet on {1} at {2}, from {3} at {4}", databaseName, replicationTarget.Id, replicationTarget.RoleInstanceIndex,self.Id,self.InternalUrl);
 
                     using (var documentStore = new DocumentStore() {Url = replicationTarget.InternalUrl})
                     {

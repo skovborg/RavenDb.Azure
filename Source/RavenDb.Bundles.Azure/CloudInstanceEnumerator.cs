@@ -16,12 +16,13 @@ namespace RavenDb.Bundles.Azure
 
             return instances.Select(i => new InstanceDescription()
             {
-                Id              = i.Id,
-                ExternalUrl     = GetEndpointUrl(i.InstanceEndpoints,"PublicHttpEndpoint"),
-                InternalUrl     = GetEndpointUrl(i.InstanceEndpoints,"PrivateHttpEndpoint"),
-                InstanceIndex   = int.Parse(i.Id.Substring(i.Id.LastIndexOf('_') + 1)),
-                IsSelf          = i.Id.Equals(RoleEnvironment.CurrentRoleInstance.Id, StringComparison.OrdinalIgnoreCase),
-                FriendlyName    = i.Id.Replace("-", string.Empty).Replace("_", string.Empty).Replace(".", string.Empty).Replace("(", string.Empty).Replace(")", String.Empty).ToLowerInvariant()
+                Id                  = i.Id,
+                ExternalUrl         = GetEndpointUrl(i.InstanceEndpoints,"PublicHttpEndpoint"),
+                InternalUrl         = GetEndpointUrl(i.InstanceEndpoints,"PrivateHttpEndpoint"),
+                RoleName            = i.Role.Name,
+                RoleInstanceIndex   = int.Parse(i.Id.Substring(i.Id.LastIndexOf('_') + 1)),
+                IsSelf              = i.Id.Equals(RoleEnvironment.CurrentRoleInstance.Id, StringComparison.OrdinalIgnoreCase),
+                FriendlyName        = i.Id.Replace("-", string.Empty).Replace("_", string.Empty).Replace(".", string.Empty).Replace("(", string.Empty).Replace(")", String.Empty).ToLowerInvariant()
             });
         }
 
