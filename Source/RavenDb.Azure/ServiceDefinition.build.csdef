@@ -9,7 +9,7 @@
   **********************************************************************************************
 -->
 <ServiceDefinition name="RavenDb.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
-  <WebRole name="RavenDb.Azure.Server" vmsize="Medium">
+  <WebRole name="RavenDb.Azure.Server" vmsize="ExtraLarge">
     <Endpoints>
       <InputEndpoint name="PublicHttpEndpoint" protocol="http" port="80" />
       <InternalEndpoint name="PrivateHttpEndpoint" protocol="http" port="*" />

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="RavenDb.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*">
   <Role name="RavenDb.Azure.Server">
-    <Instances count="4" />
+    <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=bwinravendb;AccountKey=O8yIaxfwCN3XF94vFqJSV/IZtkUFnbXC9GTnCIRNUoqlnxgtVf1ki5aRFrwi7phz2YFtocUwx7fX0qNXhDejLA==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="" />
       <Setting name="Diagnostics.TransferPeriodInMinutes" value="0.5" />
       <Setting name="Diagnostics.EventLogsToTransfer" value="Application!*;System!*" />
       <Setting name="Diagnostics.LogLayout" value="${date} ${gdc:item=InstanceId} ${message} ${exception}" />
       <Setting name="Diagnostics.LogLevel" value="Debug" />
-      <Setting name="Storage.ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=bwinravendb;AccountKey=O8yIaxfwCN3XF94vFqJSV/IZtkUFnbXC9GTnCIRNUoqlnxgtVf1ki5aRFrwi7phz2YFtocUwx7fX0qNXhDejLA==" />
+      <Setting name="Storage.ConnectionString" value="" />
       <Setting name="Storage.ContainerName" value="ravendb" />
       <Setting name="Storage.SizeInMb" value="50000" />
       <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
