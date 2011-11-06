@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="RavenDb.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*">
+  <Role name="RavenDb.Azure.MasterServer">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="" />
+      <Setting name="Diagnostics.TransferPeriodInMinutes" value="0.5" />
+      <Setting name="Diagnostics.EventLogsToTransfer" value="Application!*;System!*" />
+      <Setting name="Diagnostics.LogLayout" value="${date} ${gdc:item=InstanceId} ${message} ${exception}" />
+      <Setting name="Diagnostics.LogLevel" value="Debug" />
+      <Setting name="Storage.ConnectionString" value="" />
+      <Setting name="Storage.ContainerName" value="ravendb" />
+      <Setting name="Storage.SizeInMb" value="50000" />
+      <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
+      <Setting name="Replication.Recipe" value="PeerToPeer" />
+      <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
+    </ConfigurationSettings>
+  </Role>
+  <Role name="RavenDb.Azure.FailoverServer">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="" />
+      <Setting name="Diagnostics.TransferPeriodInMinutes" value="0.5" />
+      <Setting name="Diagnostics.EventLogsToTransfer" value="Application!*;System!*" />
+      <Setting name="Diagnostics.LogLayout" value="${date} ${gdc:item=InstanceId} ${message} ${exception}" />
+      <Setting name="Diagnostics.LogLevel" value="Debug" />
+      <Setting name="Storage.ConnectionString" value="" />
+      <Setting name="Storage.ContainerName" value="ravendb" />
+      <Setting name="Storage.SizeInMb" value="50000" />
+      <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
+      <Setting name="Replication.Recipe" value="PeerToPeer" />
+      <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>
