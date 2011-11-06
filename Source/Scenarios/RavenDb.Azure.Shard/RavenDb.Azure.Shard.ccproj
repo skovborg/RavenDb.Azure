@@ -37,7 +37,7 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Roles\RavenDb.Azure.FailoverServer\RavenDb.Azure.FailoverServer.csproj">
+    <ProjectReference Include="..\..\Roles\RavenDb.Azure.FailoverServer\RavenDb.Azure.FailoverServer.csproj">
       <Name>RavenDb.Azure.FailoverServer</Name>
       <Project>{d67ef0fc-c430-47fd-a636-a7994997c789}</Project>
       <Private>True</Private>
@@ -45,7 +45,7 @@
       <RoleName>RavenDb.Azure.FailoverServer</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
-    <ProjectReference Include="..\Roles\RavenDb.Azure.MasterServer\RavenDb.Azure.MasterServer.csproj">
+    <ProjectReference Include="..\..\Roles\RavenDb.Azure.MasterServer\RavenDb.Azure.MasterServer.csproj">
       <Name>RavenDb.Azure.MasterServer</Name>
       <Project>{d67ef0fc-c430-47fd-a636-a7994997c779}</Project>
       <Private>True</Private>
