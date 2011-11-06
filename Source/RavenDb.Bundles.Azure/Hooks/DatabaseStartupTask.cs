@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using NLog;
 using Raven.Database.Plugins;
+using RavenDb.Bundles.Azure.Configuration;
 using RavenDb.Bundles.Azure.Diagnostics;
 using RavenDb.Bundles.Azure.Replication;
 using RavenDb.Bundles.Azure.Storage;
@@ -14,16 +15,19 @@ namespace RavenDb.Bundles.Azure.Hooks
 {
     public class DatabaseStartupTask : IStartupTask
     {
-        private static readonly Logger log = LogManager.GetCurrentClassLogger();
-
-        [Import(RequiredCreationPolicy = CreationPolicy.Shared)]
-        public IDiagnosticsProvider DiagnosticsProvider { get; set; }
-
-        [Import(RequiredCreationPolicy = CreationPolicy.Shared)]
-        public IStorageProvider     StorageProvider     { get; set; }
+        private static readonly Logger  log = LogManager.GetCurrentClassLogger();
 
         [Import]
-        public IReplicationProvider ReplicationProvider { get; set; }
+        public IConfigurationProvider   ConfigurationProvider { get; set; }
+
+        [Import(RequiredCreationPolicy = CreationPolicy.Shared)]
+        public IDiagnosticsProvider     DiagnosticsProvider { get; set; }
+
+        [Import(RequiredCreationPolicy = CreationPolicy.Shared)]
+        public IStorageProvider         StorageProvider     { get; set; }
+
+        [Import]
+        public IReplicationProvider     ReplicationProvider { get; set; }
        
         public void Execute(Raven.Database.DocumentDatabase database)
         {
@@ -37,8 +41,11 @@ namespace RavenDb.Bundles.Azure.Hooks
             log.Info("Setting storage directory for default database to: {0}",storageDirectory.FullName);
             database.Configuration.DataDirectory = storageDirectory.FullName;
 
-            // Setup replication:
-            ReplicationProvider.SetupDefaultDatabaseReplication(database);
+            if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationExecuteReplicationSetup, true))
+            {
+                // Setup replication:
+                ReplicationProvider.SetupDefaultDatabaseReplication(database);
+            }
         }
     }
 }

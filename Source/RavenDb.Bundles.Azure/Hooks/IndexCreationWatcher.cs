@@ -39,7 +39,10 @@ namespace RavenDb.Bundles.Azure.Hooks
             var indexNamesToReplicate   = indexNames.Where(name => !name.StartsWith("Raven/") && !name.StartsWith("Temp/"));
             var indicesToReplicate      = indexNamesToReplicate.Select(name => Database.GetIndexDefinition(name)).ToArray();
 
-            ReplicationProvider.ReplicateIndices(Database.Name, indicesToReplicate);
+            if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationExecuteIndexCreation, true))
+            {
+                ReplicationProvider.ReplicateIndices(Database.Name, indicesToReplicate);
+            }
 
             return false;
         }

@@ -11,6 +11,7 @@ using Raven.Client.Document;
 using Raven.Client.Extensions;
 using Raven.Database.Plugins;
 using Raven.Json.Linq;
+using RavenDb.Bundles.Azure.Configuration;
 using RavenDb.Bundles.Azure.Replication;
 using RavenDb.Bundles.Azure.Storage;
 
@@ -20,11 +21,14 @@ namespace RavenDb.Bundles.Azure.Hooks
     {
         private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
+        [Import]
+        public IConfigurationProvider   ConfigurationProvider { get; set; }
+
         [Import(RequiredCreationPolicy = CreationPolicy.Shared)]
-        public IStorageProvider     StorageProvider { get; set; }
+        public IStorageProvider         StorageProvider { get; set; }
 
         [Import]
-        public IReplicationProvider ReplicationProvider { get; set; }
+        public IReplicationProvider     ReplicationProvider { get; set; }
 
         public override void OnPut(string key, RavenJObject document, RavenJObject metadata, Raven.Abstractions.Data.TransactionInformation transactionInformation)
         {
@@ -56,7 +60,10 @@ namespace RavenDb.Bundles.Azure.Hooks
 
             if (DocumentUtilities.TryGetDatabaseNameFromKey(key, out databaseName))
             {
-                ReplicationProvider.SetupTenantDatabaseReplication(databaseName);
+                if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationExecuteReplicationSetup, true))
+                {
+                    ReplicationProvider.SetupTenantDatabaseReplication(databaseName);
+                }
             }
 
             base.AfterCommit(key, document, metadata, etag);

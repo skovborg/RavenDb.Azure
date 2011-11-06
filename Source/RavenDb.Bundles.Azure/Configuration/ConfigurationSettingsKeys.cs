@@ -21,5 +21,10 @@ namespace RavenDb.Bundles.Azure.Configuration
 
         public const string ReplicationRecipe                   = "Replication.Recipe";
         public const string ReplicationIndexPollPeriodInMinutes = "Replication.IndexPollPeriodInMinutes";
+
+        public const string ReplicationExecuteDatabaseCreation  = "Replication.Execute.DatabaseCreation";
+        public const string ReplicationExecuteDatabaseDeletion  = "Replication.Execute.DatabaseDeletion";
+        public const string ReplicationExecuteReplicationSetup  = "Replication.Execute.ReplicationSetup";
+        public const string ReplicationExecuteIndexCreation     = "Replication.Execute.IndexCreation";
     }
 }

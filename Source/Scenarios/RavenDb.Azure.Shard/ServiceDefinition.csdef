@@ -19,6 +19,10 @@
       <Setting name="Storage.BenchmarkSizeInMb" />
       <Setting name="Replication.Recipe" />
       <Setting name="Replication.IndexPollPeriodInMinutes" />
+      <Setting name="Replication.Execute.DatabaseCreation"/>
+      <Setting name="Replication.Execute.DatabaseDeletion"/>
+      <Setting name="Replication.Execute.ReplicationSetup"/>
+      <Setting name="Replication.Execute.IndexCreation"/>
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Storage.Cache" cleanOnRoleRecycle="false" sizeInMB="50000" />
@@ -43,6 +47,10 @@
       <Setting name="Storage.BenchmarkSizeInMb" />
       <Setting name="Replication.Recipe" />
       <Setting name="Replication.IndexPollPeriodInMinutes" />
+      <Setting name="Replication.Execute.DatabaseCreation"/>
+      <Setting name="Replication.Execute.DatabaseDeletion"/>
+      <Setting name="Replication.Execute.ReplicationSetup"/>
+      <Setting name="Replication.Execute.IndexCreation"/>
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Storage.Cache" cleanOnRoleRecycle="false" sizeInMB="50000" />

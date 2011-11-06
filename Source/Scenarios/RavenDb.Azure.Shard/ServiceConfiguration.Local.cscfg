@@ -14,6 +14,10 @@
       <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
       <Setting name="Replication.Recipe" value="PeerToPeer" />
       <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
+      <Setting name="Replication.Execute.DatabaseCreation" value="true"/>
+      <Setting name="Replication.Execute.DatabaseDeletion" value="true"/>
+      <Setting name="Replication.Execute.ReplicationSetup" value="true"/>
+      <Setting name="Replication.Execute.IndexCreation" value="true"/>
     </ConfigurationSettings>
   </Role>
   <Role name="RavenDb.Azure.FailoverServer">
@@ -30,6 +34,10 @@
       <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
       <Setting name="Replication.Recipe" value="PeerToPeer" />
       <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
+      <Setting name="Replication.Execute.DatabaseCreation" value="true"/>
+      <Setting name="Replication.Execute.DatabaseDeletion" value="true"/>
+      <Setting name="Replication.Execute.ReplicationSetup" value="true"/>
+      <Setting name="Replication.Execute.IndexCreation" value="true"/>
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
