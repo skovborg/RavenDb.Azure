@@ -1,20 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "RavenDb.Azure", "RavenDb.Azure\RavenDb.Azure.ccproj", "{AFC459EF-C9B1-45AE-9084-90948676A91D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDb.Bundles.Azure", "RavenDb.Bundles.Azure\RavenDb.Bundles.Azure.csproj", "{DF339A0E-085E-489C-A7ED-A6FCA7809F4F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B93F6C04-9584-4621-AEFC-090B46425475}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{B93F6C04-9584-4621-AEFC-090B46425475}"
 	ProjectSection(SolutionItems) = preProject
 		..\Readme.markdown = ..\Readme.markdown
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDb.Azure.Server", "RavenDb.Azure.Server\RavenDb.Azure.Server.csproj", "{D67EF0FC-C430-47FD-A636-A7994997C769}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scenarios", "Scenarios", "{E908D5B0-EA32-4EC5-BE84-5413F0157C3B}"
-EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "RavenDb.Azure.Shard", "RavenDb.Azure.Shard\RavenDb.Azure.Shard.ccproj", "{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Roles", "Roles", "{C02CB7A4-4A8F-4E13-8ED3-9B9291BE328F}"
 EndProject
@@ -22,28 +16,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDb.Azure.MasterServer"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenDb.Azure.FailoverServer", "Roles\RavenDb.Azure.FailoverServer\RavenDb.Azure.FailoverServer.csproj", "{D67EF0FC-C430-47FD-A636-A7994997C789}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "RavenDb.Azure.Shard", "Scenarios\RavenDb.Azure.Shard\RavenDb.Azure.Shard.ccproj", "{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AFC459EF-C9B1-45AE-9084-90948676A91D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFC459EF-C9B1-45AE-9084-90948676A91D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFC459EF-C9B1-45AE-9084-90948676A91D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFC459EF-C9B1-45AE-9084-90948676A91D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF339A0E-085E-489C-A7ED-A6FCA7809F4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF339A0E-085E-489C-A7ED-A6FCA7809F4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF339A0E-085E-489C-A7ED-A6FCA7809F4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF339A0E-085E-489C-A7ED-A6FCA7809F4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D67EF0FC-C430-47FD-A636-A7994997C769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D67EF0FC-C430-47FD-A636-A7994997C769}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D67EF0FC-C430-47FD-A636-A7994997C769}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D67EF0FC-C430-47FD-A636-A7994997C769}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D67EF0FC-C430-47FD-A636-A7994997C779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D67EF0FC-C430-47FD-A636-A7994997C779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D67EF0FC-C430-47FD-A636-A7994997C779}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,6 +36,10 @@ Global
 		{D67EF0FC-C430-47FD-A636-A7994997C789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D67EF0FC-C430-47FD-A636-A7994997C789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D67EF0FC-C430-47FD-A636-A7994997C789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D13A1D2B-58B4-47F2-8C7A-BBDF936D92F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
