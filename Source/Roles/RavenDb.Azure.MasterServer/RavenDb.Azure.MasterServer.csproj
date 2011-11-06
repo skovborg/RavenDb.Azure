@@ -203,10 +203,10 @@
     <Content Include="..\..\..\Software\RavenDb\Web\Raven.Studio.xap">
       <Link>Raven.Studio.xap</Link>
     </Content>
-    <Content Include="..\RavenDb.Bundles.Azure\bin\Debug\RavenDb.Bundles.Azure.dll">
+    <Content Include="..\..\RavenDb.Bundles.Azure\bin\Debug\RavenDb.Bundles.Azure.dll">
       <Link>Plugins\RavenDb.Bundles.Azure.dll</Link>
     </Content>
-    <Content Include="..\RavenDb.Bundles.Azure\bin\Debug\RavenDb.Bundles.Azure.pdb">
+    <Content Include="..\..\RavenDb.Bundles.Azure\bin\Debug\RavenDb.Bundles.Azure.pdb">
       <Link>Plugins\RavenDb.Bundles.Azure.pdb</Link>
     </Content>
   </ItemGroup>
