@@ -33,13 +33,13 @@ namespace RavenDb.Bundles.Azure.Hooks
 
         protected override bool         HandleWork()
         {
-            log.Info("Scanning indices in database {0} for replication",Database.Name ?? "Default");
+            log.Info("Scanning indices in database {0} for replication",string.IsNullOrWhiteSpace(Database.Name) ? "Default" : Database.Name);
 
             var indexNames              = Database.GetIndexNames(0, int.MaxValue).OfType<RavenJValue>().Select(t => t.Value.ToString());
             var indexNamesToReplicate   = indexNames.Where(name => !name.StartsWith("Raven/") && !name.StartsWith("Temp/"));
             var indicesToReplicate      = indexNamesToReplicate.Select(name => Database.GetIndexDefinition(name)).ToArray();
 
-            if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationExecuteIndexCreation, true))
+            if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationIndexCreation, true))
             {
                 ReplicationProvider.ReplicateIndices(Database.Name, indicesToReplicate);
             }

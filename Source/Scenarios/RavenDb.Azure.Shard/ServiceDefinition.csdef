@@ -19,10 +19,12 @@
       <Setting name="Storage.BenchmarkSizeInMb" />
       <Setting name="Replication.Recipe" />
       <Setting name="Replication.IndexPollPeriodInMinutes" />
-      <Setting name="Replication.Execute.DatabaseCreation"/>
-      <Setting name="Replication.Execute.DatabaseDeletion"/>
-      <Setting name="Replication.Execute.ReplicationSetup"/>
-      <Setting name="Replication.Execute.IndexCreation"/>
+      <Setting name="Replication.UsePublicEndpoint" />
+      <Setting name="Replication.DatabaseCreation" />
+      <Setting name="Replication.DatabaseDeletion" />
+      <Setting name="Replication.IndexCreation" />
+      <Setting name="RavenDb.Azure.MasterServer.PublicHttpEndpoint"/>
+      <Setting name="RavenDb.Azure.FailoverServer.PublicHttpEndpoint"/>
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Storage.Cache" cleanOnRoleRecycle="false" sizeInMB="50000" />
@@ -47,10 +49,12 @@
       <Setting name="Storage.BenchmarkSizeInMb" />
       <Setting name="Replication.Recipe" />
       <Setting name="Replication.IndexPollPeriodInMinutes" />
-      <Setting name="Replication.Execute.DatabaseCreation"/>
-      <Setting name="Replication.Execute.DatabaseDeletion"/>
-      <Setting name="Replication.Execute.ReplicationSetup"/>
-      <Setting name="Replication.Execute.IndexCreation"/>
+      <Setting name="Replication.UsePublicEndpoint" />
+      <Setting name="Replication.DatabaseCreation" />
+      <Setting name="Replication.DatabaseDeletion" />
+      <Setting name="Replication.IndexCreation" />
+      <Setting name="RavenDb.Azure.MasterServer.PublicHttpEndpoint"/>
+      <Setting name="RavenDb.Azure.FailoverServer.PublicHttpEndpoint"/>
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="Storage.Cache" cleanOnRoleRecycle="false" sizeInMB="50000" />

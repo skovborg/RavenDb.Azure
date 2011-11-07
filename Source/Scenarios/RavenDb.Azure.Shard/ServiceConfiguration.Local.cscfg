@@ -14,10 +14,12 @@
       <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
       <Setting name="Replication.Recipe" value="PeerToPeer" />
       <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
-      <Setting name="Replication.Execute.DatabaseCreation" value="true"/>
-      <Setting name="Replication.Execute.DatabaseDeletion" value="true"/>
-      <Setting name="Replication.Execute.ReplicationSetup" value="true"/>
-      <Setting name="Replication.Execute.IndexCreation" value="true"/>
+      <Setting name="Replication.UsePublicEndpoint" value="true" />
+      <Setting name="Replication.DatabaseCreation" value="true" />
+      <Setting name="Replication.DatabaseDeletion" value="true" />
+      <Setting name="Replication.IndexCreation" value="true" />
+      <Setting name="RavenDb.Azure.MasterServer.PublicHttpEndpoint" value="http://localhost:82"/>
+      <Setting name="RavenDb.Azure.FailoverServer.PublicHttpEndpoint" value="http://localhost:83"/>
     </ConfigurationSettings>
   </Role>
   <Role name="RavenDb.Azure.FailoverServer">
@@ -34,10 +36,12 @@
       <Setting name="Storage.BenchmarkSizeInMb" value="1024" />
       <Setting name="Replication.Recipe" value="PeerToPeer" />
       <Setting name="Replication.IndexPollPeriodInMinutes" value="1.0" />
-      <Setting name="Replication.Execute.DatabaseCreation" value="true"/>
-      <Setting name="Replication.Execute.DatabaseDeletion" value="true"/>
-      <Setting name="Replication.Execute.ReplicationSetup" value="true"/>
-      <Setting name="Replication.Execute.IndexCreation" value="true"/>
+      <Setting name="Replication.UsePublicEndpoint" value="true" />
+      <Setting name="Replication.DatabaseCreation" value="true" />
+      <Setting name="Replication.DatabaseDeletion" value="true" />
+      <Setting name="Replication.IndexCreation" value="true" />
+      <Setting name="RavenDb.Azure.MasterServer.PublicHttpEndpoint" value="http://localhost:82"/>
+      <Setting name="RavenDb.Azure.FailoverServer.PublicHttpEndpoint" value="http://localhost:83"/>
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

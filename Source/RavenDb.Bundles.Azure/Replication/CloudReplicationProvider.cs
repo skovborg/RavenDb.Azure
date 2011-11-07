@@ -29,14 +29,19 @@ namespace RavenDb.Bundles.Azure.Replication
         [ImportMany]
         public IEnumerable<IReplicationRecipe>  Recipes { get; set; } 
 
-        public void SetupDefaultDatabaseReplication( DocumentDatabase database )
+        public void ReplicateDatabaseCreation( DocumentDatabase database )
         {
             InstanceDescription self = null;
             var replicationTargets = GetReplicationTargets(out self);
 
             if (replicationTargets != null)
             {
-                log.Info("Ensuring default database is replicated from {0} at {1}", self.Id, self.InternalUrl);
+                log.Info("Ensuring default database {0} is replicated from {2} at {3}",string.IsNullOrWhiteSpace(database.Name) ? "Default" : database.Name, self.Id, self.InternalUrl);
+
+                if (!string.IsNullOrWhiteSpace(database.Name))
+                {
+                    EnsureDatabaseExists(replicationTargets,database.Name);
+                }
 
                 var documentId = new ReplicationDocument().Id;
 
@@ -44,7 +49,7 @@ namespace RavenDb.Bundles.Azure.Replication
                 {
                     Destinations =
                         replicationTargets
-                        .Select(i => new ReplicationDestination() { Url = i.InternalUrl })
+                        .Select(i => new ReplicationDestination() { Url = GetReplicationUrl(database.Name,i) })
                         .ToList()
                 };
 
@@ -52,37 +57,7 @@ namespace RavenDb.Bundles.Azure.Replication
             }
         }
 
-        public void SetupTenantDatabaseReplication( string databaseName )
-        {
-            InstanceDescription self = null;
-            var replicationTargets = GetReplicationTargets(out self);
-
-            if (replicationTargets != null)
-            {
-                EnsureDatabaseExists(replicationTargets,databaseName);
-
-                // Setup replication:
-                using (var documentStore = new DocumentStore() { Url = self.InternalUrl })
-                {
-                    log.Info("Ensuring database {0} is replicated from {1} at {2}", databaseName, self.Id, self.InternalUrl);
-
-                    documentStore.Initialize();
-
-                    using (var session = documentStore.OpenSession(databaseName))
-                    {
-                        var documentId = new ReplicationDocument().Id; // Just to stay in sync with changes from RavenDb
-
-                        var replicationDocument = session.Load<ReplicationDocument>(documentId) ?? new ReplicationDocument();
-
-                        replicationDocument.Destinations = replicationTargets.Select(i => new ReplicationDestination() { Url = string.Format("{0}/databases/{1}", i.InternalUrl, databaseName) }).ToList();
-                        session.Store(replicationDocument);
-                        session.SaveChanges();
-                    }
-                }
-            }
-        }
-
-        public void ReplicateTenantDatabaseDeletion(string databaseName)
+        public void ReplicateDatabaseDeletion(string databaseName)
         {
             InstanceDescription self = null;
             var replicationTargets = GetReplicationTargets(out self);
@@ -152,6 +127,15 @@ namespace RavenDb.Bundles.Azure.Replication
                     }
                 }
             }
+        }
+
+        private string GetReplicationUrl(string databaseName, InstanceDescription destination)
+        {
+            var baseUrl = ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationUsePublicEndpoint, true)
+                              ? destination.ExternalUrl
+                              : destination.InternalUrl;
+
+            return databaseName == null ? baseUrl : string.Format("{0}/databases/{1}", baseUrl, databaseName);
         }
 
         private void EnsureDatabaseExists(IEnumerable<InstanceDescription> replicationTargets,string databaseName)

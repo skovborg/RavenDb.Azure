@@ -23,9 +23,9 @@ namespace RavenDb.Bundles.Azure.Hooks
 
             if (DocumentUtilities.TryGetDatabaseNameFromKey(key, out databaseName))
             {
-                if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationExecuteDatabaseDeletion, true))
+                if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationDatabaseDeletion, true))
                 {
-                    ReplicationProvider.ReplicateTenantDatabaseDeletion(databaseName);
+                    ReplicationProvider.ReplicateDatabaseDeletion(databaseName);
                 }
             }
 

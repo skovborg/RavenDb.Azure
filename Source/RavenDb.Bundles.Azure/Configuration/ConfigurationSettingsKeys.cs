@@ -22,9 +22,9 @@ namespace RavenDb.Bundles.Azure.Configuration
         public const string ReplicationRecipe                   = "Replication.Recipe";
         public const string ReplicationIndexPollPeriodInMinutes = "Replication.IndexPollPeriodInMinutes";
 
-        public const string ReplicationExecuteDatabaseCreation  = "Replication.Execute.DatabaseCreation";
-        public const string ReplicationExecuteDatabaseDeletion  = "Replication.Execute.DatabaseDeletion";
-        public const string ReplicationExecuteReplicationSetup  = "Replication.Execute.ReplicationSetup";
-        public const string ReplicationExecuteIndexCreation     = "Replication.Execute.IndexCreation";
+        public const string ReplicationUsePublicEndpoint        = "Replication.UsePublicEndpoint";
+        public const string ReplicationDatabaseCreation         = "Replication.DatabaseCreation";
+        public const string ReplicationDatabaseDeletion         = "Replication.DatabaseDeletion";
+        public const string ReplicationIndexCreation            = "Replication.IndexCreation";
     }
 }

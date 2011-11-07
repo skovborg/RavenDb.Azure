@@ -160,7 +160,6 @@
     <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="Diagnostics\CloudDiagnosticsProvider.cs" />
     <Compile Include="Diagnostics\IDiagnosticsProvider.cs" />
-    <Compile Include="Hooks\DatabaseCreateTrigger.cs" />
     <Compile Include="Hooks\DatabaseDeleteTrigger.cs" />
     <Compile Include="Hooks\DatabaseStartupTask.cs" />
     <Compile Include="Hooks\DocumentUtilities.cs" />

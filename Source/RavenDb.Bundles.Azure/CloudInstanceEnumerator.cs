@@ -17,8 +17,8 @@ namespace RavenDb.Bundles.Azure
             return instances.Select(i => new InstanceDescription()
             {
                 Id                  = i.Id,
-                ExternalUrl         = GetEndpointUrl(i.InstanceEndpoints,"PublicHttpEndpoint"),
-                InternalUrl         = GetEndpointUrl(i.InstanceEndpoints,"PrivateHttpEndpoint"),
+                ExternalUrl         = GetEndpointUrl(i,"PublicHttpEndpoint"),
+                InternalUrl         = GetEndpointUrl(i,"PrivateHttpEndpoint"),
                 RoleName            = i.Role.Name,
                 RoleInstanceIndex   = int.Parse(i.Id.Substring(i.Id.LastIndexOf('_') + 1)),
                 IsSelf              = i.Id.Equals(RoleEnvironment.CurrentRoleInstance.Id, StringComparison.OrdinalIgnoreCase),
@@ -26,16 +26,17 @@ namespace RavenDb.Bundles.Azure
             });
         }
 
-        private static string GetEndpointUrl( IDictionary<string,RoleInstanceEndpoint> endpoints,string endpointName )
+        private static string GetEndpointUrl( RoleInstance roleInstance,string endpointName )
         {
             RoleInstanceEndpoint endpoint = null;
 
-            if (endpoints.TryGetValue(endpointName, out endpoint))
+            if (roleInstance.InstanceEndpoints.TryGetValue(endpointName, out endpoint))
             {
                 return EndpointToUrl(endpoint);
             }
 
-            return string.Empty;
+            // This is very nasty but apparently there is no other way as of Azure SDK 1.5 
+            return RoleEnvironment.GetConfigurationSettingValue(roleInstance.Role.Name + "." + endpoint);
         }
 
         private static string EndpointToUrl( RoleInstanceEndpoint endpoint )

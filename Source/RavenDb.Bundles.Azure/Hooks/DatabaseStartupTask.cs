@@ -38,13 +38,13 @@ namespace RavenDb.Bundles.Azure.Hooks
             StorageProvider.Initialize();
 
             var storageDirectory = StorageProvider.GetDirectoryForDatabase(database.Name);
-            log.Info("Setting storage directory for default database to: {0}",storageDirectory.FullName);
+
+            log.Info("Setting storage directory for database {0} to {1}",string.IsNullOrWhiteSpace(database.Name) ? "Default" : database.Name,storageDirectory.FullName);
             database.Configuration.DataDirectory = storageDirectory.FullName;
 
-            if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationExecuteReplicationSetup, true))
+            if (ConfigurationProvider.GetSetting(ConfigurationSettingsKeys.ReplicationDatabaseCreation, true))
             {
-                // Setup replication:
-                ReplicationProvider.SetupDefaultDatabaseReplication(database);
+                ReplicationProvider.ReplicateDatabaseCreation(database);
             }
         }
     }
